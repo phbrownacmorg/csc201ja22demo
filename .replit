@@ -1,2 +1,2 @@
-language = "python"
-run = "python chaos.py"
+language = "python3"
+run = "python3 chaos.py"
