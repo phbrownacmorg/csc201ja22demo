@@ -8,7 +8,7 @@ from typing import List
 
 def main(args:List[str]) -> int:
     # Get the input
-    # Principal
+    # Principal: accumulator variable
     P:float = float(input('Please enter an amount to invest: $'))
     # Interest rate, in percent
     rate:float = float(input('Please enter the interest rate, per period: '))
@@ -24,8 +24,10 @@ def main(args:List[str]) -> int:
     print('-' * 31)
     print('Initial\t\t\t\t$' + str(P))
 
+    # Loop to accumulate the answer into the accumulator variable
     for i in range(periods):
         interest:float = P * rate
+        # Update the accumulator variable
         P = P + interest
         print(str(i+1) + '\t\t$' + str(round(interest, 2)) + '\t\t$' + str(round(P, 2)))
 
