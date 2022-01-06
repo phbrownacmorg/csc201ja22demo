@@ -5,6 +5,10 @@ def main():
     print("This program illustrates a chaotic function.")
     # Accumulator variable
     x = float(input("Enter a number between 0 and 1: "))
+
+    # Clamp the input to the range [0, 1]
+    x = max(0, min(1, x))
+
     # Loop in which the answer is accumulated in the accumulator variable
     for i in range(10):
         # Accumulator variable gets updated

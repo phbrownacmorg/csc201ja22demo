@@ -63,7 +63,7 @@ def factorial(args:List[str]) -> int:
     # Conventional return value indicating successful completion
     return 0
 
-def main(args:List[str]) -> int:
+def two_accumulator_variables(args:List[str]) -> int:
     numlist:List[float] = eval(input('Please enter a list of numbers: '))
     print('The list is', numlist)
 
@@ -87,6 +87,25 @@ def main(args:List[str]) -> int:
 
     # Conventional return value indicating successful completion
     return 0
+
+def main(args:List[str]) -> int:
+    # Make a table of the first 128 Unicode characters
+
+    # Start with the column headers
+    # table is the accumulator variable
+    table:str = 'Number\tCharacter\n'
+    table = table + ('-'  * 20)
+
+    # Accumulator loop (add a row to the table each time)
+    for i in range(33, 256):
+        # Update the accumulator variable
+        table = table + '\n' + str(i) + '\t\t' + chr(i)
+
+    print(table)
+
+    # Conventional return value indicating successful completion
+    return 0
+
 
 
 if __name__ == '__main__':
