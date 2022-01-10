@@ -1,4 +1,12 @@
 [[package]]
+name = "graphics.py"
+version = "5.0.1.post1"
+description = "John Zelles graphics.py package, for use with the textbook \"Python Programming: An Introduction to Computer Science\""
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "jedi"
 version = "0.18.1"
 description = "An autocompletion tool for Python that can be used for text editors."
@@ -145,9 +153,12 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "430f7b034393756d1790c722618835246f14e969d24f4cacfb26ecf6b402c5b8"
+content-hash = "89356fcdc6520bbe0913cafd059a10d6befa7863768fb4f2c609bde3c6394101"
 
 [metadata.files]
+"graphics.py" = [
+    {file = "graphics.py-5.0.1.post1.tar.gz", hash = "sha256:583561cc577447e452fb2b1352c0fc615396b12b30dfbbce48e8190d2e330a97"},
+]
 jedi = [
     {file = "jedi-0.18.1-py2.py3-none-any.whl", hash = "sha256:637c9635fcf47945ceb91cd7f320234a7be540ded6f3e99a50cb6febdfd1ba8d"},
     {file = "jedi-0.18.1.tar.gz", hash = "sha256:74137626a64a99c8eb6ae5832d99b3bdd7d29a3850fe2aa80a4126b2a7d949ab"},
