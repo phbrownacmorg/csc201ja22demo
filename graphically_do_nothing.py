@@ -3,7 +3,7 @@ from typing import List
 
 def main(args:List[str]) -> int:
     # Do nothing, graphically
-    win:GraphWin = GraphWin('Click to close', 300, 300)
+    win:GraphWin = GraphWin('Click to close', 200, 200)
 
     # Wait for a mouse click
     win.getMouse()
