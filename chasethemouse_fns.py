@@ -25,11 +25,49 @@ def makeEye(angle:float, r:float, color:str) -> Oval:
     eye.setFill(color)
     return eye
 
+def makeEyeList(r:float, color:str) -> List[GraphicsObject]:
+    eyelist:List[GraphicsObject] = []
+    for i in range(2):
+        angle:float = math.radians(50) + i * math.radians(80)
+        eyelist.append(makeEye(angle, r, color))
+    return eyelist
+
 def makeMouthPart(centerPt:Point, r:float, angle:float) -> Line:
     endPt:Point = Point(centerPt.getX() + 0.5 * r * math.cos(angle),
                         centerPt.getY() + 0.5 * r * math.sin(angle))
     mouthPart:Line = Line(centerPt, endPt)
     return mouthPart
+
+def makeMouth(radius:float) -> List[GraphicsObject]:
+    # Mouth
+    # BROKEN. The side of the mouth with i == 1 is bigger than the side with i == 0.
+    mouthList:List[GraphicsObject] = []
+    for i in range(2):
+        angle = math.radians(330) - i * math.radians(120)
+        meeting:Point = Point(0, -0.35 * radius)
+        mouthList.append(makeMouthPart(meeting, radius, angle))
+    return mouthList
+
+def makeWhisker(angle:float, r:float) -> Line:
+    # Make and return a line representing a whisker.  The line is radial
+    # to the animal's head.  angle is the angle along which the whisker lies.
+    inFactor:float = 0.9   # How far the inside end is from the center, as a factor of r
+    outFactor:float = 1.6  # How far the outside end is from the center, as a factor of r
+
+    innerEnd:Point = Point(inFactor * r * math.cos(angle), inFactor * r * math.sin(angle))
+    outerEnd:Point = Point(outFactor * r * math.cos(angle), outFactor * r * math.sin(angle))
+
+    whisker:Line = Line(innerEnd, outerEnd)
+    return whisker
+
+def makeWhiskerList(r:float) -> List[GraphicsObject]:
+    # Make and return a list of Whiskers
+    whiskerList:List[GraphicsObject] = []
+    for j in range(2):
+        for i in range(-1, 2):
+            angle = math.radians(0) + i * math.radians(8) + j * math.pi
+            whiskerList.append(makeWhisker(angle, r))
+    return whiskerList
 
 def makeMouse() -> List[GraphicsObject]:
     radius:float = 0.05
@@ -41,37 +79,41 @@ def makeMouse() -> List[GraphicsObject]:
         angle = (math.pi/3) + i * (math.pi/3)
         rodent.append(makeMouseEar(radius, angle))
 
-    # Eyes
-    for i in range(2):
-        angle:float = math.radians(50) + i * math.radians(80)
-        rodent.append(makeEye(angle, radius, 'black'))
-
-    # Mouth
-    # BROKEN. The side of the mouth with i == 1 is bigger than the side with i == 0.
-    for i in range(2):
-        angle = math.radians(330) - i * math.radians(120)
-        meeting:Point = Point(0, -0.35 * radius)
-        rodent.append(makeMouthPart(meeting, radius, angle))
+    rodent.extend(makeEyeList(radius, 'black'))
+    rodent.extend(makeMouth(radius))
+    rodent.extend(makeWhiskerList(radius))
             
     return rodent
+
+def makeCatEar(centralAngle:float, r:float, color:str) -> Polygon:
+    # Make and return a triangle representing the ear of the cat.  The centralAngle
+    # is the angle of the outer tip of the ear.  r is the radius of the cat's head,
+    # and color is the color of the cat's head.
+    tipFactor:float = 1.8 # How far the tip is from the center of the head, compared to r
+    tip:Point = Point(tipFactor * r * math.cos(centralAngle), tipFactor * r * math.sin(centralAngle))
+    earSpreadAngle:float = math.radians(25)
+    p1:Point = Point(r * math.cos(centralAngle + earSpreadAngle), r * math.sin(centralAngle + earSpreadAngle))
+    p2:Point = Point(r * math.cos(centralAngle - earSpreadAngle), r * math.sin(centralAngle - earSpreadAngle))
+    ear:Polygon = Polygon(p1, tip, p2)
+    ear.setFill(color)
+    ear.setOutline(color)
+    return ear
 
 def makeCat() -> List[GraphicsObject]:
     radius:float = 0.2
     cat = []
+    catColor:str = 'orange'
 
-    cat.append(makeHead(radius, 'orange'))
+    cat.append(makeHead(radius, catColor))
 
-    # Eyes
+    # Ears
     for i in range(2):
-        angle:float = math.radians(50) + i * math.radians(80)
-        cat.append(makeEye(angle, radius, 'green'))
+        centralAngle:float = math.radians(60) + i * math.radians(60)
+        cat.append(makeCatEar(centralAngle, radius, catColor))
 
-    # Mouth
-    # BROKEN. The side of the mouth with i == 1 is bigger than the side with i == 0.
-    for i in range(2):
-        angle = math.radians(330) - i * math.radians(120)
-        meeting:Point = Point(0, -0.35 * radius)
-        cat.append(makeMouthPart(meeting, radius, angle))
+    cat.extend(makeEyeList(radius, 'green'))
+    cat.extend(makeMouth(radius))
+    cat.extend(makeWhiskerList(radius))
 
     return cat
 
