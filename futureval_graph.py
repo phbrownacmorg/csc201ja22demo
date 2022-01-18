@@ -5,11 +5,19 @@
 # compounds.
 
 from graphics import *
-from typing import List
+from typing import List, Tuple
 
+def readInput() -> Tuple[float, float, int]:
+    # Principal: accumulator variable
+    P:float = float(input('Please enter an amount to invest: $'))
+    # Interest rate, in percent
+    rate:float = float(input('Please enter the interest rate, per period: '))
+    # Number of compounding periods to invest for
+    periods:int = int(input('Please enter the number of periods to invest for: '))
+    return P, rate, periods # Python turns these into a tuple
 
 def calcValues(P:float, rate:float, periods:int) -> List[float]:
-    # Calculate the growth of the investment
+    # Calculate the growth of the investment, and return the resulting list of values
 
     # Convert rate from percent to absolute
     rate = rate / 100
@@ -26,6 +34,7 @@ def calcValues(P:float, rate:float, periods:int) -> List[float]:
 
 
 def printTable(values:List[float]) -> None:
+    # Print the growth table of the investment to the terminal
     print('\nPeriod\t\tFinal value')
     print('-' * 23)
     print('Initial\t\t${0:9.2f}'.format(values[0]))
@@ -66,12 +75,7 @@ def graphTable(values:List[float]) -> None:
 
 def main(args:List[str]) -> int:
     # Get the input
-    # Principal: accumulator variable
-    P:float = float(input('Please enter an amount to invest: $'))
-    # Interest rate, in percent
-    rate:float = float(input('Please enter the interest rate, per period: '))
-    # Number of compounding periods to invest for
-    periods:int = int(input('Please enter the number of periods to invest for: '))
+    P, rate, periods = readInput() # type: float, float, int
     print('Investing $', P, 'at', rate, '% for', periods, 'periods:')
 
     values:List[float] = calcValues(P, rate, periods)
