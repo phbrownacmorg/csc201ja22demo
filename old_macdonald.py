@@ -2,7 +2,7 @@ from typing import List
 
 def printVerse(animals:str, noise:str) -> None:
     article:str = 'a'
-    if (noise[0] == 'a') or (noise[0] == 'e') or (noise[0] == 'i') or (noise[0] == 'o') or (noise[0] == 'u'):
+    if noise[0] in 'aeiou':
         article = 'an'
 
     print('Old MacDonald had a farm,')
@@ -25,6 +25,7 @@ def main(args: List[str]) -> int:
     printVerse('cats', 'meow')
     printVerse('horses', 'neigh')
     printVerse('fish', 'glug')
+    printVerse('donkey', 'ee-aw')
 
     # Conventional return value indicating successful completion
     return 0

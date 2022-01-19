@@ -18,14 +18,16 @@ def main(args:List[str]) -> int:
 
     # Split apart first name and middle name(s).  Split on spaces.
     parts = firstmiddle.split()
+    first = parts[0]
+    middle = ''
+    if len(parts) > 1: # If there is a middle name
+        middle = parts[1]
 
-    userid = last
-    # Add on the initials from the first and middle names.
-    # Use a loop here because there might not be a middle name!
-    initials:str = ''
-    for p in parts:
-        initials = initials + p.strip()[0]
-    userid = (initials + userid).lower() + '001'
+    if middle == '':
+        userid = first[0] + last
+    else:
+        userid = first[0] + middle[0] + last
+    userid = userid.lower() + '001'
 
     print('The corresponding userid is "' + userid + '".')
 
