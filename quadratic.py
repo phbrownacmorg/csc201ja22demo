@@ -5,8 +5,13 @@ def det(a:float, b:float, c:float) -> float:
     return b**2 - 4*a*c
 
 def roots(a:float, b:float, c:float) -> Tuple[float, float]:
-    root1:float = (-b + math.sqrt(det(a, b, c))) / 2*a
-    root2:float = (-b - math.sqrt(det(a, b, c))) / 2*a
+    determinant:float = det(a, b, c)
+    if determinant < 0:
+        root1:float = math.nan
+        root2:float = math.nan
+    else:
+        root1 = (-b + math.sqrt(determinant)) / 2*a
+        root2 = (-b - math.sqrt(determinant)) / 2*a
     return root1, root2
 
 def main(args:List[str]) -> int:
@@ -22,7 +27,10 @@ def main(args:List[str]) -> int:
     print('has the following roots:')
 
     root1, root2 = roots(a, b, c) # type: Tuple[float, float]
-    print('\t', root1, 'and', root2)
+    if math.isnan(root1):
+        print('\tNo real roots')
+    else:
+        print('\t', root1, 'and', root2)
 
     # Conventional return value indicating successful completion
     return 0

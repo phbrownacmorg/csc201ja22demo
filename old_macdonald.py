@@ -1,12 +1,16 @@
 from typing import List
 
 def printVerse(animals:str, noise:str) -> None:
+    article:str = 'a'
+    if (noise[0] == 'a') or (noise[0] == 'e') or (noise[0] == 'i') or (noise[0] == 'o') or (noise[0] == 'u'):
+        article = 'an'
+
     print('Old MacDonald had a farm,')
     print('E-I-E-I-O!')
     print('And on that farm he had some {0},'.format(animals))
     print('E-I-E-I-O!')
-    print('With a {0}, {0} here and a {0}, {0} there,'.format(noise))
-    print('Here a {0}, there a {0}, everywhere a {0}, {0},'.format(noise))
+    print('With {1} {0}, {0} here and {1} {0}, {0} there,'.format(noise, article))
+    print('Here {1} {0}, there {1} {0}, everywhere {1} {0}, {0},'.format(noise, article))
     print('Old MacDonald had a farm,')
     print('E-I-E-I-O!')
     print()
