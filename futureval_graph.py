@@ -5,16 +5,75 @@
 # compounds.
 
 from graphics import *
+import math
+import sys
 from typing import List, Tuple
+
+def readInt(prompt:str) -> int:
+    # Read an integer from the keyboard, checking to
+    # make sure it's a valid integer.  If it's *not*
+    # a valid integer, return -sys.maxsize.  (This
+    # function should not crash on invalid input.)
+    inString:str = input(prompt).strip()
+    # Now, I should have an optional negative sign
+    # followed by one or more digits.
+    validInt:bool = inString.isdigit() or \
+        (inString[0] == '-' and inString[1:].isdigit())
+    if validInt:
+        return int(inString)
+    else:
+        print('Input "' + inString + '" is not a valid integer.')
+        return -sys.maxsize
+
+def readFloat(prompt:str) -> float:
+    # Read a float from the keyboard, checking to see whether
+    # it's a valid floating-point number.  This should not
+    # crash if an invalid float is entered.  Instead, it
+    # should return math.nan.
+    # To simplify things, this function does not support
+    # exponential or scientific notation for a float.
+    inString:str = input(prompt).strip()
+    testStr:str = inString[:]
+    # Optional minus sign
+    if testStr[0] == '-':
+        testStr = testStr[1:]
+    # Remove up to one decimal point (but no more)
+    testStr = testStr.replace('.', '', 1)
+    # Now, there should be nothing here but digits
+    if testStr.isdigit():
+        return float(inString)
+    else:
+        print('Input "' + inString + '" is not a valid floating-point number.')
+        return math.nan
 
 def readInput() -> Tuple[float, float, int]:
     # Principal: accumulator variable
-    P:float = float(input('Please enter an amount to invest: $'))
+    P:float = readFloat('Please enter an amount to invest: $')
+    # Validate the principal
+    if not (P > 0): # math.nan is not > 0
+        print('Principal should be greater than 0.')
+        P = math.nan
+        return P, 0, 0
+
     # Interest rate, in percent
-    rate:float = float(input('Please enter the interest rate, per period: '))
+    rate:float = readFloat('Please enter the interest rate, per period: ')
+    # Validate the rate
+    if not (rate > 0):
+        print('Interest rate must be greater than 0.')
+        rate = math.nan
+        return P, rate, 0
+
     # Number of compounding periods to invest for
-    periods:int = int(input('Please enter the number of periods to invest for: '))
+    periods:int = readInt('Please enter the number of periods to invest for: ')
+    # Validate the periods
+    if (periods <= 0):
+        print('Number of periods must be greater than 0.')
+        periods = 0
+        # No need for a special return statement
     return P, rate, periods # Python turns these into a tuple
+
+def validInput(P:float, rate:float, periods:int) -> bool:
+    return (P > 0) and (rate > 0) and (periods > 0)
 
 def calcValues(P:float, rate:float, periods:int) -> List[float]:
     # Calculate the growth of the investment, and return the resulting list of values
@@ -76,6 +135,10 @@ def graphTable(values:List[float]) -> None:
 def main(args:List[str]) -> int:
     # Get the input
     P, rate, periods = readInput() # type: float, float, int
+    # Validation
+    if not validInput(P, rate, periods):
+        print('Invalid input.  Exiting.')
+        return 0
     print('Investing $', P, 'at', rate, '% for', periods, 'periods:')
 
     values:List[float] = calcValues(P, rate, periods)
