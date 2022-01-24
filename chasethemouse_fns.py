@@ -1,5 +1,6 @@
 # Basic mouse interaction
 
+from buttondemo import makeButton, inButton
 from graphics import *
 import math
 from typing import List
@@ -149,14 +150,15 @@ def main(args:List[str]) -> int:
     drawAnimal(win, mouse)
     drawAnimal(win, cat)
     
-    # Collect mouse clicks
-    for i in range(5):
-        p = win.getMouse()
+    quitButton:Rectangle = makeButton(Point(-1, 1), Point(-.5, .5),
+                            'Quit', win)
+    
+    p:Point = win.getMouse()
+    while not inButton(p, quitButton):
         moveTo(getLocation(mouse), cat)
         moveTo(p, mouse)
+        p = win.getMouse()  # Update the mouse click!!
 
-    # Wait for a mouse click
-    win.getMouse()
     win.close()
 
     # Conventional return value indicating successful completion
