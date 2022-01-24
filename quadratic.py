@@ -15,7 +15,7 @@ def main(args:List[str]) -> int:
         a:float = float(input('\ta: '))
         b:float = float(input('\tb: '))
         c:float = float(input('\tc: '))
-    except ValueError as e: # input problem
+    except ValueError: # input problem
         print('a, b, and c must be floating-point numbers.')
     else:
         print('The system ' + str(a) + '*X**2 + ',end='')
@@ -24,7 +24,7 @@ def main(args:List[str]) -> int:
 
         try:
             root1, root2 = roots(a, b, c) # type: Tuple[float, float]
-        except ValueError as e: # Negative determinant
+        except ValueError: # Negative determinant
             print('\tNo real roots')
         else:
             print('\t', root1, 'and', root2)
