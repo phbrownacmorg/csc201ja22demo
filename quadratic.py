@@ -1,36 +1,33 @@
 from typing import List, Tuple
 import math
 
-def det(a:float, b:float, c:float) -> float:
-    return b**2 - 4*a*c
-
 def roots(a:float, b:float, c:float) -> Tuple[float, float]:
-    determinant:float = det(a, b, c)
-    if determinant < 0:
-        root1:float = math.nan
-        root2:float = math.nan
-    else:
-        root1 = (-b + math.sqrt(determinant)) / 2*a
-        root2 = (-b - math.sqrt(determinant)) / 2*a
+    determinant:float = b**2 - 4*a*c
+    root1 = (-b + math.sqrt(determinant)) / 2*a
+    root2 = (-b - math.sqrt(determinant)) / 2*a
     return root1, root2
 
 def main(args:List[str]) -> int:
     # Do nothing, successfully
     # Read the coefficients
     print('Please enter coefficients for the\nquadratic a*x**2 + b*x + c = 0')
-    a:float = float(input('\ta: '))
-    b:float = float(input('\tb: '))
-    c:float = float(input('\tc: '))
-
-    print('The system ' + str(a) + '*X**2 + ',end='')
-    print(str(b) + '*X +',c,'= 0')
-    print('has the following roots:')
-
-    root1, root2 = roots(a, b, c) # type: Tuple[float, float]
-    if math.isnan(root1):
-        print('\tNo real roots')
+    try:
+        a:float = float(input('\ta: '))
+        b:float = float(input('\tb: '))
+        c:float = float(input('\tc: '))
+    except ValueError as e: # input problem
+        print('a, b, and c must be floating-point numbers.')
     else:
-        print('\t', root1, 'and', root2)
+        print('The system ' + str(a) + '*X**2 + ',end='')
+        print(str(b) + '*X +',c,'= 0')
+        print('has the following roots:')
+
+        try:
+            root1, root2 = roots(a, b, c) # type: Tuple[float, float]
+        except ValueError as e: # Negative determinant
+            print('\tNo real roots')
+        else:
+            print('\t', root1, 'and', root2)
 
     # Conventional return value indicating successful completion
     return 0
