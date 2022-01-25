@@ -52,8 +52,36 @@ def interactive_sum_except() -> None:
     except ValueError:
         return None
 
+# Sum from a file, the usual way in Python
+def sum_from_file_usual(fname:str) -> None:
+    total:float = 0
+    count:int = 0
+
+    # Usual Python pattern
+    with open(fname, 'r') as infile:
+        for line in infile.readlines():
+            number:float = float(line)
+            total = total + number
+            count = count + 1
+    print('Saw', count, 'numbers totalling', total, 'and averaging', (total/count))
+
+# Sum from a file, in a way common to many languages
+def sum_from_file_general(fname:str) -> None:
+    total:float = 0
+    count:int = 0
+
+    # Usual Python pattern
+    with open(fname, 'r') as infile:
+        line:str = infile.readline()
+        while line != '':
+            number:float = float(line)
+            total = total + number
+            count = count + 1
+            line = infile.readline()
+    print('Saw', count, 'numbers totalling', total, 'and averaging', (total/count))
+
 def main(args:List[str]) -> int:
-    interactive_sum_empty()
+    sum_from_file_general('numlist.txt')
 
     # Conventional return value indicating successful completion
     return 0
