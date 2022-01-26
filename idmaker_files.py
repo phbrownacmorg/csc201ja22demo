@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 
 def readNames(infilename:str) -> List[List[str]]:
     nameList:List[List[str]] = []
@@ -39,15 +39,37 @@ def makeUserids(nameList:List[List[str]]) -> List[List[str]]:
 
 def write_userids(idList:List[List[str]], outfilename:str) -> None:
     with open(outfilename,'w') as outfile:
+        # Write the column headers
+        outfile.write('userid,lastname,firstname,middlename\n')
         for entry in idList: # type: List[str]
             for part in entry[:-1]: # type: str
                 outfile.write(part + ',')
             outfile.write(entry[-1] + '\n')
 
+def readIntoDict(fname:str) -> Dict[str,str]:
+    # Read into a dictionary mapping names onto
+    # userids.
+    id_dict:Dict[str, str] = {}
+    with open('userids.csv', 'r') as infile:
+        for line in infile.readlines()[1:]:
+            fields:List[str] = line.split(',')
+            # Relies on knowledge of field order
+            # key is lastname, firstname
+            key:str = fields[1] + ', ' + fields[2]
+            # Data is just the userid in fields[0]
+            id_dict[key] = fields[0]
+    return id_dict
+
 def main(args:List[str]) -> int:
     names:List[List[str]] = readNames('namegenerator.csv')
     idList:List[List[str]] = makeUserids(names)
     write_userids(idList, 'userids.csv')
+
+    # Read the list of ID's into a dictionary
+    id_dict:Dict[str, str] = readIntoDict('userids.csv')
+    id_items:List[Tuple[str, str]] = list(id_dict.items())
+    print(id_items[:30])
+
     return 0
 
 if __name__ == '__main__':
