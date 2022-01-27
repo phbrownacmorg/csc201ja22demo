@@ -134,6 +134,18 @@ def drawAnimal(win:GraphWin, animal:List[GraphicsObject]) -> None:
     for part in animal:
         part.draw(win)
 
+def distance(p1:Point, p2:Point) -> float:
+    # Return the distance between the two given Points.
+    return math.sqrt((p1.getX() - p2.getX())**2 + (p1.getY() - p2.getY())**2)
+
+def caught(prey:List[GraphicsObject], predator:List[GraphicsObject]) -> bool:
+    # Function to tell whether the given PREDATOR has caught the given PREY.
+    # Being caught is defined as the distance between the centers of the
+    # two animals being less than the radius of the predator.
+    preyPt = prey[0].getCenter() # center of the head
+    predatorPt = predator[0].getCenter() # center of the head
+    return distance(preyPt, predatorPt) < predator[0].getRadius()
+
 def main(args:List[str]) -> int:
     # Do nothing, graphically
     win:GraphWin = GraphWin('Click to close', 300, 300)
@@ -153,10 +165,14 @@ def main(args:List[str]) -> int:
     quitButton:Rectangle = makeButton(Point(-1, 1), Point(-.5, .5),
                             'Quit', win)
     
+    label:Text = Text(Point(0, 0.8), 'Poor mouse!')
+
     p:Point = win.getMouse()
-    while not inButton(p, quitButton):
+    while (not inButton(p, quitButton)) and not caught(mouse, cat):
         moveTo(getLocation(mouse), cat)
         moveTo(p, mouse)
+        if caught(mouse, cat): # If the mouse has been caught, we're done.
+            label.draw(win)
         p = win.getMouse()  # Update the mouse click!!
 
     win.close()
